@@ -771,7 +771,7 @@ class DatabaseEngine {
   exportBackupJSON() {
     return JSON.stringify({
       version: '1.0',
-      client: 'Sri Venkateswara Company (SVC)',
+      client: 'Sri Venkateshwara Company (SVC)',
       module: 'Phase 1 RM Inward & RM Issue',
       timestamp: new Date().toISOString(),
       inwardLots: this.inwardLots,

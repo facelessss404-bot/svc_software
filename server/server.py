@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 SVC Smart Move — Central On-Premise Production Server (Phase 1: Wire Stock)
-Sri Venkateswara Company (SVC), Coimbatore
+Sri Venkateshwara Company (SVC), Coimbatore
 
 Hardened Production Server for Windows Server 2012 / Factory LAN.
 - Zero external dependencies: Uses only Python 3 Standard Library.
@@ -801,7 +801,7 @@ def run_server():
     server_address = ("0.0.0.0", PORT)
     httpd = HTTPServer(server_address, SmartMoveRequestHandler)
     print("=" * 70)
-    print("  SRI VENKATESWARA COMPANY — SMART MOVE PRODUCTION SERVER (HARDENED)")
+    print("  SRI VENKATESHWARA COMPANY — SMART MOVE PRODUCTION SERVER (HARDENED)")
     print(f"  Listening on: http://0.0.0.0:{PORT} (LAN & Localhost)")
     print(f"  Shared SQLite Database: {DB_PATH}")
     print("  Security: PBKDF2-HMAC-SHA256 (100k iter) | Transaction: BEGIN IMMEDIATE")

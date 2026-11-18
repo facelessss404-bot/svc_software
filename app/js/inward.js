@@ -316,7 +316,7 @@ class InwardModule {
     // Filter
     if (this.searchQuery) {
       const q = this.searchQuery.toLowerCase();
-      lots = lots.filter(l => 
+      lots = lots.filter(l =>
         (l.batchNo || '').toLowerCase().includes(q) ||
         (l.supplier || '').toLowerCase().includes(q) ||
         (l.invNo || '').toLowerCase().includes(q) ||
@@ -382,16 +382,16 @@ class InwardModule {
               ${pageLots.length === 0 ? `
                 <tr><td colspan="12" class="text-center py-4 text-muted">No inward lot records found matching criteria.</td></tr>
               ` : pageLots.map(l => {
-                const batchNo = l.batchNo || l.batch_no || '';
-                const inwardDate = l.inwardDate || l.inward_date || '-';
-                const invNo = l.invNo || l.inv_no || '-';
-                const wireSize = l.wireSize || l.wire_size || '-';
-                const heatNo = l.heatNo || l.heat_no || '-';
-                const weight = Number(l.weight) || 0;
-                const coils = Number(l.coils) || 0;
-                const stock = db.getBatchStock(batchNo) || { availableStock: weight, status: 'In Stock' };
-                const statusClass = stock.status === 'In Stock' ? 'status-ok' : stock.status === 'Low Stock' ? 'status-warn' : 'status-danger';
-                return `
+      const batchNo = l.batchNo || l.batch_no || '';
+      const inwardDate = l.inwardDate || l.inward_date || '-';
+      const invNo = l.invNo || l.inv_no || '-';
+      const wireSize = l.wireSize || l.wire_size || '-';
+      const heatNo = l.heatNo || l.heat_no || '-';
+      const weight = Number(l.weight) || 0;
+      const coils = Number(l.coils) || 0;
+      const stock = db.getBatchStock(batchNo) || { availableStock: weight, status: 'In Stock' };
+      const statusClass = stock.status === 'In Stock' ? 'status-ok' : stock.status === 'Low Stock' ? 'status-warn' : 'status-danger';
+      return `
                   <tr data-batch="${batchNo}" class="clickable-row">
                     <td><strong class="font-mono text-gold">${batchNo}</strong></td>
                     <td>${inwardDate}</td>
@@ -407,7 +407,7 @@ class InwardModule {
                     <td><span class="badge ${statusClass}">${stock.status}</span></td>
                   </tr>
                 `;
-              }).join('')}
+    }).join('')}
             </tbody>
           </table>
         </div>

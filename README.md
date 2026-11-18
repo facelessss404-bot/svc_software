@@ -1,6 +1,6 @@
 # SVC Smart Move — Phase 1: RM Inward & RM Issue (Wire Stock Only)
 
-**Client:** Sri Venkateswara Company (SVC), Coimbatore  
+**Client:** Sri Venkateshwara Company (SVC), Coimbatore  
 **Application:** Smart Move Manufacturing System — Phase 1 Intranet Edition  
 **Platform:** On-Premise LAN / Windows Server 2012 Ready (100% Offline Compatible)  
 **Target Environment:** Local Intranet (No mandatory cloud or external internet required)

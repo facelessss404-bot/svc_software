@@ -1,6 +1,6 @@
 /**
  * SVC Smart Move — Central On-Premise Server (Node.js Edition)
- * Sri Venkateswara Company (SVC), Coimbatore
+ * Sri Venkateshwara Company (SVC), Coimbatore
  * 
  * Zero-Dependency Production Server for Windows Server 2012 / Factory LAN.
  * Uses only Node.js Built-in Core Modules (http, fs, path, crypto).
@@ -407,7 +407,7 @@ function handleApi(req, res, pathname, body) {
 loadDatabase();
 server.listen(PORT, '0.0.0.0', () => {
   console.log('='.repeat(65));
-  console.log('  SRI VENKATESWARA COMPANY — SMART MOVE CENTRAL SERVER (NODE.JS)');
+  console.log('  SRI VENKATESHWARA COMPANY — SMART MOVE CENTRAL SERVER (NODE.JS)');
   console.log(`  Listening on: http://0.0.0.0:${PORT}`);
   console.log(`  Local Access: http://localhost:${PORT}`);
   console.log(`  Database File: ${DB_FILE}`);
