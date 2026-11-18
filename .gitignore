@@ -1,0 +1,32 @@
+# SVC Smart Move - Production Repository Ignore Rules
+
+# Client Source & Raw Documents
+*.xlsm
+*.docx
+*.pdf
+*.ogg
+*.zip
+*.tar.gz
+*.jpeg
+*.jpg
+*.png.tmp
+
+# Scratch & Exploration Utilities
+decompress_vba.html
+parse_excel.html
+package_zip.py
+*.tmp
+
+# Instruction Prompts (Internal only)
+Antigravity_*.txt
+SVC_*_Prompt_*.txt
+
+# Environments & MCP Logs
+.playwright-mcp/
+.system_generated/
+*.log
+
+# Python Runtime
+__pycache__/
+*.py[cod]
+*$py.class

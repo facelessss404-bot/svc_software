@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SVC Smart Move | RM Inward & RM Issue Phase 1</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="app-layout">
+    <!-- Sidebar Navigation -->
+    <aside class="app-sidebar" id="app-sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-logo-badge">SVC</div>
+        <div class="brand-text">
+          <h1>SRI VENKATESWARA</h1>
+          <div class="brand-subtitle">Smart Move • RM Phase 1</div>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="#dashboard" class="nav-link active" data-view="view-dashboard">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+          Dashboard
+        </a>
+        <a href="#inward" class="nav-link" data-view="view-inward">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7-7 7 7"/></svg>
+          RM Inward
+        </a>
+        <a href="#issue" class="nav-link" data-view="view-issue">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M5 12l7 7 7-7"/></svg>
+          RM Issue
+        </a>
+        <a href="#ledger" class="nav-link" data-view="view-ledger">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+          Stock Ledger
+        </a>
+        <a href="#masters" class="nav-link" data-view="view-masters">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+          Master Catalogs
+        </a>
+        <a href="#settings" class="nav-link" data-view="view-settings">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+          Backup & Audit
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div>On-Premise LAN Edition</div>
+        <div class="text-gold font-mono">v1.0 • Win Server 2012 Ready</div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="app-main">
+      <!-- Top Application Header -->
+      <header class="app-header">
+        <div class="header-title-area">
+          <button id="sidebar-toggle" class="btn btn-secondary btn-sm" aria-label="Toggle Sidebar">☰</button>
+          <h2>SVC Smart Move</h2>
+          <span class="badge-phase">Phase 1: Wire Stock Only</span>
+        </div>
+
+        <div class="header-user-area">
+          <div id="connection-status-pill" class="connection-pill status-offline">
+            <span class="status-dot"></span>
+            <span id="connection-status-text">Standalone Demo Mode</span>
+          </div>
+          <div id="user-profile-badge" class="user-badge hidden">
+            <div class="user-avatar" id="current-user-avatar">SVC</div>
+            <div class="user-meta">
+              <span class="user-name" id="current-user-name">Operator</span>
+              <span class="user-role" id="current-user-role">Store</span>
+            </div>
+            <button id="btn-logout" class="btn btn-secondary btn-xs" title="Logout">Logout</button>
+          </div>
+        </div>
+      </header>
+
+      <div class="content-body">
+        <!-- 1. DASHBOARD VIEW -->
+        <section id="view-dashboard" class="view-section">
+          <!-- KPI Metrics Row -->
+          <div class="kpi-grid">
+            <div class="kpi-card kpi-stock">
+              <div class="kpi-label">Available Wire Stock</div>
+              <div class="kpi-value text-gold" id="kpi-current-stock">0.00 kg</div>
+              <div class="kpi-sub">Total Usable Wire in Store</div>
+            </div>
+
+            <div class="kpi-card kpi-inward">
+              <div class="kpi-label">Total Inward Received</div>
+              <div class="kpi-value" id="kpi-total-inward">0.00 kg</div>
+              <div class="kpi-sub">Across All Batches</div>
+            </div>
+
+            <div class="kpi-card kpi-issued">
+              <div class="kpi-label">Total Wire Issued</div>
+              <div class="kpi-value text-warning" id="kpi-total-issued">0.00 kg</div>
+              <div class="kpi-sub">Issued to Machines</div>
+            </div>
+
+            <div class="kpi-card kpi-returned">
+              <div class="kpi-label">Total Returned Wire</div>
+              <div class="kpi-value text-success" id="kpi-total-returned">0.00 kg</div>
+              <div class="kpi-sub">Unused Wire Back to Store</div>
+            </div>
+
+            <div class="kpi-card kpi-consumed">
+              <div class="kpi-label">Net Wire Consumed</div>
+              <div class="kpi-value" id="kpi-net-consumed">0.00 kg</div>
+              <div class="kpi-sub">Less Scrap, Bit Wire, Slug</div>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-label">Active Wire Batches</div>
+              <div class="kpi-value" id="kpi-active-batches">0 Lots</div>
+              <div class="kpi-sub">Batches with Available Balance</div>
+            </div>
+          </div>
+
+          <!-- Quick Actions Banner -->
+          <div class="action-banner">
+            <div>
+              <h3 class="text-gold">Quick Shop-Floor Operations</h3>
+              <p class="text-muted">Direct fast entry for raw material store receipt and machine issues.</p>
+            </div>
+            <div class="action-buttons">
+              <button id="dash-btn-new-inward" class="btn btn-primary">
+                + New RM Inward (Receive Wire)
+              </button>
+              <button id="dash-btn-new-issue" class="btn btn-accent">
+                + New RM Issue (Issue to M/C)
+              </button>
+            </div>
+          </div>
+
+          <!-- Recent Activity Table -->
+          <div class="table-card mt-4">
+            <div class="table-toolbar">
+              <h3 style="font-size:14px; text-transform:uppercase; letter-spacing:0.5px;">Recent Store Transactions</h3>
+              <span class="text-muted text-xs">Real-Time Ledger Feed</span>
+            </div>
+            <div id="recent-activity-list" style="padding:16px;"></div>
+          </div>
+        </section>
+
+        <!-- 2. RM INWARD VIEW -->
+        <section id="view-inward" class="view-section hidden">
+          <div class="card-form-wrapper">
+            <div class="table-toolbar mb-3" style="padding:0; border:none;">
+              <div>
+                <h2>Raw Material (Wire) Inward Entry</h2>
+                <p class="text-muted">Enter incoming wire lot details. The definitive Batch Number is generated automatically in the backend upon saving.</p>
+              </div>
+            </div>
+            <div id="inward-form-container"></div>
+          </div>
+
+          <!-- Inward Register Table -->
+          <h3 class="mb-2">Inward Lots Register</h3>
+          <div id="inward-register-container"></div>
+        </section>
+
+        <!-- 3. RM ISSUE VIEW -->
+        <section id="view-issue" class="view-section hidden">
+          <div class="card-form-wrapper">
+            <div class="table-toolbar mb-3" style="padding:0; border:none;">
+              <div>
+                <h2>Raw Material Issue to Machine</h2>
+                <p class="text-muted">Issue wire from available stock to a cold-forging machine. Selecting a Part Number auto-fills the Customer; selecting a Batch auto-fills wire specifications.</p>
+              </div>
+            </div>
+            <div id="issue-form-container"></div>
+          </div>
+
+          <!-- Issue Register Table -->
+          <h3 class="mb-2">Machine Issue Transaction Log</h3>
+          <div id="issue-register-container"></div>
+        </section>
+
+        <!-- 4. STOCK LEDGER VIEW -->
+        <section id="view-ledger" class="view-section hidden">
+          <div class="table-toolbar mb-3" style="padding:0; border:none;">
+            <div>
+              <h2>Wire Stock Ledger & Lot Balance Reconciliation</h2>
+              <p class="text-muted">Reconciles Inward Lot Weight against Machine Issues and Store Returns. Formula: <code>Available = Inward - Issued + Returned</code>.</p>
+            </div>
+          </div>
+          <div id="ledger-container"></div>
+        </section>
+
+        <!-- 5. MASTER DATA VIEW -->
+        <section id="view-masters" class="view-section hidden">
+          <div class="table-toolbar mb-3" style="padding:0; border:none;">
+            <div>
+              <h2>Master Data Reference Catalogs</h2>
+              <p class="text-muted">Sourced directly from <code>Main_Data</code> (49 wire/grade codes) and <code>Main List</code> (443 part numbers).</p>
+            </div>
+          </div>
+          
+          <div class="table-card mb-4">
+            <div class="table-toolbar">
+              <h3>Wire Specification & Batch Code Master (`Main_Data`)</h3>
+            </div>
+            <div id="masters-table-container"></div>
+          </div>
+
+          <div class="table-card">
+            <div class="table-toolbar">
+              <h3>Part Number to Customer Catalog (`Main List`)</h3>
+            </div>
+            <div id="parts-table-container"></div>
+          </div>
+        </section>
+
+        <!-- 6. SETTINGS & AUDIT VIEW -->
+        <section id="view-settings" class="view-section hidden">
+          <div class="table-toolbar mb-3" style="padding:0; border:none;">
+            <div>
+              <h2>Backup, Disaster Recovery & Audit Logs</h2>
+              <p class="text-muted">Local data persistence, JSON database backups, and immutable transaction audit history.</p>
+            </div>
+          </div>
+
+          <div class="kpi-grid">
+            <div class="kpi-card">
+              <div class="kpi-label">Central Backend Connection (Render / Cloud / LAN)</div>
+              <p class="text-muted text-xs mb-2">Connect this frontend to your central Python SQLite server (e.g. on Render or LAN).</p>
+              <div style="display:flex; gap:8px;">
+                <input type="text" id="config-backend-url" class="form-control form-control-sm" placeholder="e.g. https://svc-smartmove.onrender.com" />
+                <button id="btn-save-backend-url" class="btn btn-primary btn-sm" style="white-space:nowrap;">Connect</button>
+              </div>
+              <small id="config-backend-status" class="text-muted text-xs mt-1 block"></small>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-label">Database Backup (Local File)</div>
+              <p class="text-muted text-xs mb-3">Download complete JSON snapshot of all inward lots, issues, and sequence counters.</p>
+              <button id="btn-export-backup" class="btn btn-secondary btn-sm">Export Full Backup (.JSON)</button>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-label">Restore Database Snapshot</div>
+              <p class="text-muted text-xs mb-3">Restore from a previously exported JSON backup file.</p>
+              <input type="file" id="backup-file-input" accept=".json" class="hidden" />
+              <button id="btn-trigger-restore" class="btn btn-secondary btn-sm">Select Backup File to Restore</button>
+            </div>
+          </div>
+
+          <div id="audit-log-container" class="mt-4"></div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <!-- Batch Traceability Modal -->
+  <div id="trace-modal" class="modal hidden">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Raw Material Lot Traceability & Issue History</h3>
+        <button class="modal-close">&times;</button>
+      </div>
+      <div class="modal-body" id="trace-modal-body"></div>
+    </div>
+  </div>
+
+  <!-- Login Modal (Locked until credentials provided) -->
+  <div id="login-modal" class="modal locked hidden">
+    <div class="modal-backdrop" style="background: rgba(10, 15, 29, 0.95);"></div>
+    <div class="modal-content" style="max-width: 420px; border-color: var(--accent-gold);">
+      <div class="modal-header">
+        <div>
+          <div class="brand-logo-badge" style="display:inline-block; margin-bottom:6px;">SVC</div>
+          <h3 style="color:var(--accent-gold);">SVC SMART MOVE LOGIN</h3>
+          <p class="text-muted text-xs">Phase 1: Raw Material Store & Issue Intranet</p>
+        </div>
+      </div>
+      <div class="modal-body">
+        <form id="login-form">
+          <div class="form-group mb-3">
+            <label for="login-username">Username</label>
+            <input type="text" id="login-username" value="admin" required class="form-control" autocomplete="username" />
+            <small class="text-muted text-xs">Demo accounts: <code>admin</code> (Manager) | <code>operator</code> (Store)</small>
+          </div>
+          <div class="form-group mb-3">
+            <label for="login-pin">Password / PIN</label>
+            <input type="password" id="login-pin" value="admin123" required class="form-control" autocomplete="current-password" />
+            <small class="text-muted text-xs">Default PIN: <code>admin123</code> | <code>store123</code></small>
+          </div>
+          <div id="login-error-msg" class="field-error mb-3 hidden"></div>
+          <button type="submit" id="btn-login-submit" class="btn btn-primary" style="width: 100%;">
+            Sign In to Smart Move
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="notification-container"></div>
+
+  <!-- Application Scripts (Standard classic scripts for 100% offline file:/// & LAN support) -->
+  <script src="js/config.js"></script>
+  <script src="js/masterData.js"></script>
+  <script src="js/partsCatalog.js"></script>
+  <script src="js/db.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/inward.js"></script>
+  <script src="js/issue.js"></script>
+  <script src="js/ledger.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

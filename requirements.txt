@@ -1,0 +1,3 @@
+# SVC Smart Move - Python Dependencies
+# Zero external packages required.
+# Uses Python 3 Standard Library (sqlite3, http.server, hashlib, hmac, threading)

@@ -1,0 +1,7 @@
+# Netlify Redirects / Reverse Proxy
+# Forwards /api calls to the Render Backend with zero CORS restrictions.
+# When your Render backend is deployed, replace the URL below with your Render URL:
+/api/*  https://svc-smartmove.onrender.com/api/:splat  200!
+
+# SPA Routing Fallback
+/*      /index.html                                    200
