@@ -25,12 +25,17 @@ class SmartMoveApp {
     const userBadge = document.getElementById('user-profile-badge');
     const userNameSpan = document.getElementById('current-user-name');
     const userRoleSpan = document.getElementById('current-user-role');
+    const sidebarUserName = document.getElementById('sidebar-user-name');
+    const sidebarUserRole = document.getElementById('sidebar-user-role');
 
     if (auth.isAuthenticated()) {
       if (loginModal) loginModal.classList.add('hidden');
       const user = auth.getUser();
-      if (userNameSpan) userNameSpan.textContent = user.name || user.username;
+      const displayName = user.name || user.username;
+      if (userNameSpan) userNameSpan.textContent = displayName;
       if (userRoleSpan) userRoleSpan.textContent = user.role;
+      if (sidebarUserName) sidebarUserName.textContent = displayName;
+      if (sidebarUserRole) sidebarUserRole.textContent = user.role;
       if (userBadge) userBadge.classList.remove('hidden');
 
       this.initModules();
