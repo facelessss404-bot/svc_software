@@ -860,6 +860,8 @@ code {
   display: flex;
   flex-direction: column;
   gap: 6px;
+  min-width: 0;
+  width: 100%;
 }
 
 .form-group label {
@@ -885,6 +887,45 @@ code {
   outline: none;
   transition: all var(--transition-fast);
   width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+/* Bulletproof WebKit Date & Time Input Normalization for iPhone Safari */
+input[type="date"].form-control,
+input[type="time"].form-control,
+input[type="datetime-local"].form-control {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  display: block;
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  line-height: 1.4;
+}
+
+/* Fix iOS Safari shadow DOM date value clipping & overflow */
+input[type="date"]::-webkit-date-and-time-value {
+  text-align: left;
+  line-height: 1.4;
+  min-height: 1.4em;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* WebKit calendar icon sizing & alignment */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  filter: invert(0.85);
+  opacity: 0.85;
+  padding: 2px 4px;
+  margin-left: auto;
+  align-self: center;
 }
 
 .form-control:focus {
@@ -1225,7 +1266,8 @@ select.form-control {
 
 .data-table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
   font-size: 12px;
   text-align: left;
 }
@@ -1235,22 +1277,55 @@ select.form-control {
   color: var(--text-secondary);
   font-weight: 700;
   text-transform: uppercase;
-  font-size: 10px;
+  font-size: 10.5px;
   letter-spacing: 0.6px;
   padding: 12px 14px;
-  border-bottom: 1px solid var(--border-default);
+  border-bottom: 2px solid var(--border-default);
   white-space: nowrap;
 }
 
 .data-table td {
   padding: 12px 14px;
-  border-bottom: 1px solid rgba(40, 55, 77, 0.4);
+  border-bottom: 1px solid rgba(40, 55, 77, 0.45);
   white-space: nowrap;
   vertical-align: middle;
 }
 
 .data-table tr:hover td {
-  background-color: rgba(255, 255, 255, 0.025);
+  background-color: rgba(245, 158, 11, 0.04);
+}
+
+/* Sticky First Column for Batch / Tx ID Visibility while Scrolling */
+.data-table th:first-child,
+.data-table td:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  background-color: var(--bg-surface);
+  box-shadow: 2px 0 6px rgba(0, 0, 0, 0.35);
+}
+
+.data-table th:first-child {
+  background-color: var(--bg-card);
+  z-index: 3;
+}
+
+.data-table tr:hover td:first-child {
+  background-color: #172236;
+}
+
+/* Scroll Hint Bar on Mobile */
+.table-scroll-hint {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background-color: rgba(245, 158, 11, 0.08);
+  border-bottom: 1px solid rgba(245, 158, 11, 0.2);
+  color: var(--accent-gold);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
 }
 
 .table-pagination {

@@ -149,6 +149,9 @@ class SmartMoveApp {
     if (masterContainer) {
       const master = db.getMasterData();
       masterContainer.innerHTML = `
+        <div class="table-scroll-hint header-mobile-only">
+          <span>↔ Swipe table horizontally to inspect wire specification codes</span>
+        </div>
         <div class="table-responsive">
           <table class="data-table">
             <thead>
@@ -183,6 +186,9 @@ class SmartMoveApp {
     if (partsContainer) {
       const parts = db.getPartsCatalog().slice(0, 100);
       partsContainer.innerHTML = `
+        <div class="table-scroll-hint header-mobile-only">
+          <span>↔ Swipe table horizontally to inspect Part No to Customer mapping</span>
+        </div>
         <div class="table-responsive">
           <table class="data-table">
             <thead>
@@ -211,7 +217,7 @@ class SmartMoveApp {
     }
   }
 
-  switchView(viewId) {
+  async switchView(viewId) {
     document.querySelectorAll('.view-section').forEach(sec => {
       sec.classList.add('hidden');
     });
@@ -229,6 +235,11 @@ class SmartMoveApp {
         link.classList.remove('active');
       }
     });
+
+    // If connected to central server, pull latest state immediately on tab switch
+    if (window.db && window.db.isServerConnected) {
+      await window.db.syncWithServer();
+    }
 
     if (viewId === 'view-ledger') {
       this.ledgerModule.renderLedger();

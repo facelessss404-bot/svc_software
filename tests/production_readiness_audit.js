@@ -32,7 +32,7 @@ async function runProductionAudit() {
     // Direct SQLite reset of operator to default state for deterministic test run
     const cp = typeof require !== 'undefined' ? require('child_process') : null;
     if (cp) {
-      cp.execSync('python -c "import sqlite3, hashlib, os; conn=sqlite3.connect(r\'server/data/svc_smartmove.db\'); cur=conn.cursor(); cur.execute(\\\"DELETE FROM rm_issue_transactions WHERE batch_no LIKE \'MS-M-a-26-00%\' AND batch_no != \'MS-M-a-26-001\'\\\"); cur.execute(\\\"DELETE FROM rm_inward_lots WHERE batch_no LIKE \'MS-M-a-26-00%\' AND batch_no != \'MS-M-a-26-001\'\\\"); cur.execute(\\\"UPDATE batch_sequences SET last_seq = 1 WHERE prefix = \'MS-M-a-26\'\\\"); salt=os.urandom(16); key=hashlib.pbkdf2_hmac(\'sha256\', b\'store123\', salt, 100000); h=f\'pbkdf2:sha256:100000${salt.hex()}${key.hex()}\'; cur.execute(\\\"UPDATE users SET password_hash = ?, must_change_password = 1 WHERE username = \'operator\'\\\", (h,)); conn.commit(); conn.close()\"', {
+      cp.execSync('python -c "import sqlite3, hashlib, os; conn=sqlite3.connect(r\'server/data/svc_smartmove.db\'); cur=conn.cursor(); cur.execute(\\\"DELETE FROM rm_issue_transactions WHERE batch_no LIKE \'MS-M-a-26-00%\' AND batch_no != \'MS-M-a-26-001\'\\\"); cur.execute(\\\"DELETE FROM rm_inward_lots WHERE batch_no LIKE \'MS-M-a-26-00%\' AND batch_no != \'MS-M-a-26-001\'\\\"); cur.execute(\\\"UPDATE batch_sequences SET last_seq = 1 WHERE prefix = \'MS-M-a-26\'\\\"); salt=os.urandom(16); key=hashlib.pbkdf2_hmac(\'sha256\', b\'store123\', salt, 100000); h=\'pbkdf2:sha256:100000$\' + salt.hex() + \'$\' + key.hex(); cur.execute(\\\"UPDATE users SET password_hash = ?, must_change_password = 1 WHERE username = \'operator\'\\\", (h,)); conn.commit(); conn.close()\"', {
         cwd: 'd:/Ideaseternal_Projects/Client_10_srivenkateshwara_software'
       });
     }
@@ -96,12 +96,20 @@ async function runProductionAudit() {
   // Admin login for subsequent privileged tests
   let adminToken = '';
   try {
-    const adminLoginRes = await fetch(`${BASE_URL}/api/auth/login`, {
+    let adminLoginRes = await fetch(`${BASE_URL}/api/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username: 'admin', pin: 'SVC_Plant_2026!' })
+      body: JSON.stringify({ username: 'admin', pin: 'admin123' })
     });
-    const adminData = await adminLoginRes.json();
+    let adminData = await adminLoginRes.json();
+    if (!adminData.ok) {
+      adminLoginRes = await fetch(`${BASE_URL}/api/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: 'admin', pin: 'SVC_Plant_2026!' })
+      });
+      adminData = await adminLoginRes.json();
+    }
     adminToken = adminData.token;
   } catch (e) {
     logTest('Admin Auth Pre-requisite', false, { error: e.message });

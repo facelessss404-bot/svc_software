@@ -62,6 +62,9 @@ class LedgerModule {
           </div>
         </div>
 
+        <div class="table-scroll-hint header-mobile-only">
+          <span>↔ Swipe table horizontally • Sticky Batch No • Tap row for details</span>
+        </div>
         <div class="table-responsive">
           <table class="data-table">
             <thead>
@@ -91,7 +94,7 @@ class LedgerModule {
                 const stock = db.getBatchStock(batchNo) || { inwardWeight: b.weight || 0, totalIssued: 0, totalReturned: 0, totalNetConsumed: 0, availableStock: b.weight || 0, status: 'In Stock', issueCount: 0 };
                 const statusClass = stock.status === 'In Stock' ? 'status-ok' : stock.status === 'Low Stock' ? 'status-warn' : 'status-danger';
                 return `
-                  <tr>
+                  <tr data-batch="${batchNo}" class="clickable-row">
                     <td><strong class="font-mono text-gold">${batchNo}</strong></td>
                     <td>${inwardDate}</td>
                     <td>${supplier}</td>
@@ -249,6 +252,9 @@ class LedgerModule {
       <div class="table-card">
         <div class="card-header">
           <h3>System Audit Trail (Last 50 Events)</h3>
+        </div>
+        <div class="table-scroll-hint header-mobile-only">
+          <span>↔ Swipe table horizontally • Sticky Batch No • Tap row for details</span>
         </div>
         <div class="table-responsive">
           <table class="data-table">

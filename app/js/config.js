@@ -11,11 +11,19 @@ window.SVC_CONFIG = {
     if (saved && saved.trim()) {
       return saved.trim().replace(/\/+$/, '');
     }
-    // 2. Check hardcoded default
+    // 2. If running directly on a server (Localhost, Factory LAN, or Cloud), use same-origin relative paths
+    if (typeof window !== 'undefined' && window.location) {
+      const protocol = window.location.protocol;
+      if (protocol === 'http:' || protocol === 'https:') {
+        if (!window.location.hostname.includes('netlify.app')) {
+          return '';
+        }
+      }
+    }
+    // 3. Fallback for file:/// protocol or Netlify static hosting
     if (this.DEFAULT_RENDER_URL && this.DEFAULT_RENDER_URL.trim()) {
       return this.DEFAULT_RENDER_URL.trim().replace(/\/+$/, '');
     }
-    // 3. If relative (local server or Netlify _redirects proxy), return empty string
     return '';
   },
 

@@ -481,6 +481,9 @@ class IssueModule {
           </div>
         </div>
 
+        <div class="table-scroll-hint header-mobile-only">
+          <span>↔ Swipe table horizontally • Sticky Tx ID • Tap row for details</span>
+        </div>
         <div class="table-responsive">
           <table class="data-table">
             <thead>
@@ -520,8 +523,8 @@ class IssueModule {
                 const netConsumed = Number(t.netConsumed != null ? t.netConsumed : t.net_consumed) || 0;
                 const dieNo = t.dieNo || t.die_no || '-';
                 return `
-                <tr>
-                  <td><code class="text-muted">${id}</code></td>
+                <tr data-batch="${batchNo}" class="clickable-row">
+                  <td><code class="text-muted font-mono">${id}</code></td>
                   <td>${issueDate}</td>
                   <td><strong class="badge badge-mach">${machineNo}</strong></td>
                   <td><strong>${customer}</strong></td>
@@ -591,6 +594,16 @@ class IssueModule {
         this.currentPage++;
         this.renderRegister();
       }
+    });
+
+    // Row Click: Open Traceability Modal
+    container.querySelectorAll('.clickable-row').forEach(row => {
+      row.addEventListener('click', () => {
+        const batchNo = row.dataset.batch;
+        if (batchNo && this.app && this.app.ledgerModule) {
+          this.app.ledgerModule.openTraceModal(batchNo);
+        }
+      });
     });
   }
 }

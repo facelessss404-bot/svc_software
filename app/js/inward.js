@@ -360,6 +360,9 @@ class InwardModule {
           </div>
         </div>
 
+        <div class="table-scroll-hint header-mobile-only">
+          <span>↔ Swipe table horizontally • Sticky Batch No • Tap row for details</span>
+        </div>
         <div class="table-responsive">
           <table class="data-table">
             <thead>
@@ -463,6 +466,16 @@ class InwardModule {
         this.currentPage++;
         this.renderRegister();
       }
+    });
+
+    // Row Click: Open Traceability Modal
+    container.querySelectorAll('.clickable-row').forEach(row => {
+      row.addEventListener('click', () => {
+        const batchNo = row.dataset.batch;
+        if (batchNo && this.app && this.app.ledgerModule) {
+          this.app.ledgerModule.openTraceModal(batchNo);
+        }
+      });
     });
   }
 }
