@@ -81,33 +81,56 @@ class SmartMoveApp {
     const container = document.getElementById('recent-activity-list');
     if (!container) return;
 
-    const recentInwards = db.inwardLots.slice(0, 5);
-    const recentIssues = db.issueTransactions.slice(0, 5);
+    const recentInwards = (db.inwardLots || []).slice(0, 5);
+    const recentIssues = (db.issueTransactions || []).slice(0, 5);
 
     let html = '';
     if (recentInwards.length === 0 && recentIssues.length === 0) {
-      html = '<p class="text-muted text-center py-3">No recent transactions recorded.</p>';
+      html = '<div class="empty-state"><p class="text-muted text-center py-4">No store transactions recorded yet.</p></div>';
     } else {
       html = `
         <div class="activity-feed">
-          ${recentInwards.map(l => `
+          ${recentInwards.map(l => {
+            const batchNo = l.batchNo || l.batch_no || 'Unassigned';
+            const weight = Number(l.weight) || 0;
+            const wireSize = l.wireSize || l.wire_size || '';
+            const invNo = l.invNo || l.inv_no || '-';
+            const inwardDate = l.inwardDate || l.inward_date || '-';
+            return `
             <div class="feed-item inward-item">
               <span class="feed-badge inward-badge">INWARD</span>
               <div class="feed-content">
-                <strong>${l.batchNo}</strong> - ${l.weight.toFixed(2)} kg of ${l.material} (${l.grade} ${l.wireSize}) from ${l.supplier}
-                <div class="feed-time">${l.inwardDate} | Inv: ${l.invNo}</div>
+                <div class="feed-header">
+                  <strong class="feed-title font-mono text-gold">${batchNo}</strong>
+                  <span class="feed-weight text-info">+${weight.toFixed(2)} kg</span>
+                </div>
+                <div class="feed-desc">
+                  ${l.material || 'Wire'} &bull; ${l.grade || ''} <code>${wireSize}</code> &bull; Supplier: <strong>${l.supplier || '-'}</strong>
+                </div>
+                <div class="feed-meta">Date: ${inwardDate} &bull; Inv: ${invNo}</div>
               </div>
-            </div>
-          `).join('')}
-          ${recentIssues.map(i => `
+            </div>`;
+          }).join('')}
+          ${recentIssues.map(i => {
+            const batchNo = i.batchNo || i.batch_no || '-';
+            const issuedQty = Number(i.issuedQty != null ? i.issuedQty : i.issued_qty) || 0;
+            const netConsumed = Number(i.netConsumed != null ? i.netConsumed : i.net_consumed) || 0;
+            const issueDate = i.issueDate || i.issue_date || '-';
+            return `
             <div class="feed-item issue-item">
               <span class="feed-badge issue-badge">ISSUE</span>
               <div class="feed-content">
-                <strong>M/C ${i.machineNo}</strong> - Issued ${i.issuedQty.toFixed(2)} kg for Part ${i.partNumber} (${i.customer})
-                <div class="feed-time">${i.issueDate} | Batch: ${i.batchNo} | Net Consumed: ${i.netConsumed.toFixed(2)} kg</div>
+                <div class="feed-header">
+                  <strong class="feed-title">M/C ${i.machineNo || i.machine_no} &bull; Part ${i.partNumber || i.part_number}</strong>
+                  <span class="feed-weight text-warning">-${issuedQty.toFixed(2)} kg</span>
+                </div>
+                <div class="feed-desc">
+                  Customer: <strong>${i.customer || i.customer_name || '-'}</strong> &bull; Batch: <span class="font-mono text-gold">${batchNo}</span>
+                </div>
+                <div class="feed-meta">Date: ${issueDate} &bull; Net Consumed: ${netConsumed.toFixed(2)} kg</div>
               </div>
-            </div>
-          `).join('')}
+            </div>`;
+          }).join('')}
         </div>
       `;
     }
@@ -307,13 +330,54 @@ class SmartMoveApp {
       }
     });
 
-    // Mobile Sidebar Toggle
-    document.getElementById('sidebar-toggle')?.addEventListener('click', () => {
-      document.getElementById('app-sidebar')?.classList.toggle('open');
+    // Mobile Sidebar & Backdrop Controller
+    const sidebar = document.getElementById('app-sidebar');
+    const backdrop = document.getElementById('sidebar-backdrop');
+    const toggleBtn = document.getElementById('sidebar-toggle');
+    const closeBtn = document.getElementById('sidebar-close');
+
+    const openSidebar = () => {
+      sidebar?.classList.add('open');
+      backdrop?.classList.remove('hidden');
+      document.body.classList.add('sidebar-open');
+    };
+
+    const closeSidebar = () => {
+      sidebar?.classList.remove('open');
+      backdrop?.classList.add('hidden');
+      document.body.classList.remove('sidebar-open');
+    };
+
+    toggleBtn?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (sidebar?.classList.contains('open')) {
+        closeSidebar();
+      } else {
+        openSidebar();
+      }
     });
 
-    // Keyboard Shortcuts (Alt+1, Alt+2, Alt+3, Alt+4)
+    closeBtn?.addEventListener('click', closeSidebar);
+    backdrop?.addEventListener('click', closeSidebar);
+
+    // Auto-close sidebar on mobile navigation click
+    document.querySelectorAll('.sidebar-nav .nav-link').forEach(link => {
+      link.addEventListener('click', () => {
+        if (window.innerWidth <= 768) {
+          closeSidebar();
+        }
+      });
+    });
+
+    // Close on Escape key
     window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeSidebar();
+        document.querySelectorAll('.modal').forEach(m => {
+          if (!m.classList.contains('locked')) m.classList.add('hidden');
+        });
+      }
+      // Keyboard Shortcuts (Alt+1, Alt+2, Alt+3, Alt+4)
       if (e.altKey && e.key === '1') this.switchView('view-dashboard');
       if (e.altKey && e.key === '2') this.switchView('view-inward');
       if (e.altKey && e.key === '3') this.switchView('view-issue');

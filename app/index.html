@@ -16,6 +16,7 @@
           <h1>SRI VENKATESWARA</h1>
           <div class="brand-subtitle">Smart Move • RM Phase 1</div>
         </div>
+        <button id="sidebar-close" class="sidebar-close-btn header-mobile-only" aria-label="Close Navigation Sidebar" title="Close Sidebar">&times;</button>
       </div>
 
       <nav class="sidebar-nav">
@@ -51,28 +52,47 @@
       </div>
     </aside>
 
+    <!-- Mobile Sidebar Backdrop Overlay -->
+    <div id="sidebar-backdrop" class="sidebar-backdrop hidden" aria-hidden="true"></div>
+
     <!-- Main Content Area -->
     <main class="app-main">
       <!-- Top Application Header -->
       <header class="app-header">
-        <div class="header-title-area">
-          <button id="sidebar-toggle" class="btn btn-secondary btn-sm" aria-label="Toggle Sidebar">☰</button>
-          <h2>SVC Smart Move</h2>
-          <span class="badge-phase">Phase 1: Wire Stock Only</span>
+        <div class="header-main-row">
+          <div class="header-title-area">
+            <button id="sidebar-toggle" class="btn btn-secondary btn-icon" aria-label="Toggle Navigation Sidebar" title="Toggle Navigation Sidebar">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            </button>
+            <div class="header-brand-lockup">
+              <span class="header-brand-badge">SVC</span>
+              <h2 class="header-brand-name">Smart Move</h2>
+            </div>
+            <span class="badge-phase header-desktop-only">Phase 1: Wire Stock Only</span>
+          </div>
+
+          <div class="header-user-area">
+            <div id="connection-status-pill" class="connection-pill status-offline header-desktop-only">
+              <span class="status-dot"></span>
+              <span id="connection-status-text">Standalone Demo Mode</span>
+            </div>
+            <div id="user-profile-badge" class="user-badge hidden">
+              <div class="user-avatar" id="current-user-avatar">SVC</div>
+              <div class="user-meta">
+                <span class="user-name" id="current-user-name">Operator</span>
+                <span class="user-role" id="current-user-role">Store</span>
+              </div>
+              <button id="btn-logout" class="btn btn-secondary btn-xs btn-logout" title="Sign out of Smart Move">Logout</button>
+            </div>
+          </div>
         </div>
 
-        <div class="header-user-area">
-          <div id="connection-status-pill" class="connection-pill status-offline">
+        <!-- Mobile Secondary Status Row (Clean dedicated bar below brand on narrow screens) -->
+        <div class="header-sub-row header-mobile-only">
+          <span class="badge-phase">Phase 1: Wire Stock Only</span>
+          <div id="connection-status-pill-mobile" class="connection-pill status-offline">
             <span class="status-dot"></span>
-            <span id="connection-status-text">Standalone Demo Mode</span>
-          </div>
-          <div id="user-profile-badge" class="user-badge hidden">
-            <div class="user-avatar" id="current-user-avatar">SVC</div>
-            <div class="user-meta">
-              <span class="user-name" id="current-user-name">Operator</span>
-              <span class="user-role" id="current-user-role">Store</span>
-            </div>
-            <button id="btn-logout" class="btn btn-secondary btn-xs" title="Logout">Logout</button>
+            <span id="connection-status-text-mobile">Standalone Demo</span>
           </div>
         </div>
       </header>

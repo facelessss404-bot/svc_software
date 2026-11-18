@@ -32,8 +32,8 @@ class DatabaseEngine {
     if (savedState) {
       try {
         const parsed = JSON.parse(savedState);
-        this.inwardLots = parsed.inwardLots || [];
-        this.issueTransactions = parsed.issueTransactions || [];
+        this.inwardLots = (parsed.inwardLots || []).map(l => this._normalizeLot(l));
+        this.issueTransactions = (parsed.issueTransactions || []).map(i => this._normalizeIssue(i));
         this.auditLogs = parsed.auditLogs || [];
         this.users = parsed.users || [];
         this.sequenceCounters = parsed.sequenceCounters || {};
@@ -121,16 +121,112 @@ class DatabaseEngine {
   updateConnectionBadge(isOnline) {
     const pill = document.getElementById('connection-status-pill');
     const text = document.getElementById('connection-status-text');
-    if (!pill || !text) return;
-    if (isOnline) {
-      pill.className = 'connection-pill status-online';
-      text.textContent = 'Central Server Mode (LAN Shared DB)';
-      pill.title = 'Connected to central factory database. All transactions are shared in real-time across workstations.';
-    } else {
-      pill.className = 'connection-pill status-offline';
-      text.textContent = 'Standalone Demo Mode (Local Only)';
-      pill.title = 'Running on local browser storage. Transactions on this computer are not shared with other machines.';
+    const pillMob = document.getElementById('connection-status-pill-mobile');
+    const textMob = document.getElementById('connection-status-text-mobile');
+
+    const className = isOnline ? 'connection-pill status-online' : 'connection-pill status-offline';
+    const textContent = isOnline ? 'Central Server Mode (LAN Shared DB)' : 'Standalone Demo Mode (Local Only)';
+    const textMobContent = isOnline ? 'Server Online' : 'Standalone';
+    const titleText = isOnline
+      ? 'Connected to central factory database. All transactions are shared in real-time across workstations.'
+      : 'Running on local browser storage. Transactions on this computer are not shared with other machines.';
+
+    if (pill) {
+      pill.className = className + ' header-desktop-only';
+      if (text) text.textContent = textContent;
+      pill.title = titleText;
     }
+    if (pillMob) {
+      pillMob.className = className;
+      if (textMob) textMob.textContent = textMobContent;
+      pillMob.title = titleText;
+    }
+  }
+
+  _normalizeLot(l) {
+    if (!l) return null;
+    const batchNo = l.batchNo || l.batch_no || '';
+    const inwardDate = l.inwardDate || l.inward_date || '';
+    const invNo = l.invNo || l.inv_no || '';
+    const invDate = l.invDate || l.inv_date || inwardDate;
+    const poNo = l.poNo || l.po_no || '';
+    const giNo = l.giNo || l.gi_no || '';
+    const material = l.material || '';
+    const grade = l.grade || '';
+    const wireSize = l.wireSize || l.wire_size || '';
+    const coils = Number(l.coils) || 0;
+    const weight = Number(l.weight) || 0;
+    const heatNo = l.heatNo || l.heat_no || '';
+    const remarks = l.remarks || '';
+    const createdAt = l.createdAt || l.created_at || '';
+    const createdBy = l.createdBy || l.created_by || 'admin';
+    return {
+      batchNo, batch_no: batchNo,
+      inwardDate, inward_date: inwardDate,
+      supplier: l.supplier || '',
+      invNo, inv_no: invNo,
+      invDate, inv_date: invDate,
+      poNo, po_no: poNo,
+      giNo, gi_no: giNo,
+      material,
+      grade,
+      wireSize, wire_size: wireSize,
+      coils,
+      weight,
+      heatNo, heat_no: heatNo,
+      remarks,
+      createdAt, created_at: createdAt,
+      createdBy, created_by: createdBy
+    };
+  }
+
+  _normalizeIssue(i) {
+    if (!i) return null;
+    const txId = i.txId || i.tx_id || '';
+    const issueDate = i.issueDate || i.issue_date || '';
+    const machineNo = i.machineNo || i.machine_no || '';
+    const partNumber = i.partNumber || i.part_number || '';
+    const customer = i.customer || i.customer_name || '';
+    const batchNo = i.batchNo || i.batch_no || '';
+    const material = i.material || '';
+    const grade = i.grade || '';
+    const wireSize = i.wireSize || i.wire_size || '';
+    const drawnSize = i.drawnSize || i.drawn_size || '';
+    const dieNo = i.dieNo || i.die_no || '';
+    const issuedQty = Number(i.issuedQty != null ? i.issuedQty : i.issued_qty) || 0;
+    const returnQty = Number(i.returnQty != null ? i.returnQty : i.return_qty) || 0;
+    const scrapQty = Number(i.scrapQty != null ? i.scrapQty : i.scrap_qty) || 0;
+    const bitWireQty = Number(i.bitWireQty != null ? i.bitWireQty : i.bit_wire_qty) || 0;
+    const slugQty = Number(i.slugQty != null ? i.slugQty : i.slug_qty) || 0;
+    const netConsumed = Number(i.netConsumed != null ? i.netConsumed : i.net_consumed) || 0;
+    const remarks = i.remarks || '';
+    const isVoid = (i.isVoid != null ? i.isVoid : i.is_void) ? 1 : 0;
+    const createdAt = i.createdAt || i.created_at || '';
+    const createdBy = i.createdBy || i.created_by || 'admin';
+    return {
+      id: i.id,
+      txId, tx_id: txId,
+      issueDate, issue_date: issueDate,
+      machineNo, machine_no: machineNo,
+      partNumber, part_number: partNumber,
+      customer, customer_name: customer,
+      batchNo, batch_no: batchNo,
+      material,
+      grade,
+      wireSize, wire_size: wireSize,
+      drawnSize, drawn_size: drawnSize,
+      dieNo, die_no: dieNo,
+      issuedQty, issued_qty: issuedQty,
+      returnQty, return_qty: returnQty,
+      scrapQty, scrap_qty: scrapQty,
+      bitWireQty, bit_wire_qty: bitWireQty,
+      slugQty, slug_qty: slugQty,
+      netConsumed, net_consumed: netConsumed,
+      remarks,
+      isVoid, is_void: isVoid,
+      createdAt, created_at: createdAt,
+      createdBy, created_by: createdBy
+    };
   }
 
   async syncWithServer() {
@@ -145,8 +241,8 @@ class DatabaseEngine {
         const lotsData = await lotsRes.json();
         const issuesData = await issuesRes.json();
         if (lotsData.ok && issuesData.ok) {
-          this.inwardLots = lotsData.lots || [];
-          this.issueTransactions = issuesData.issues || [];
+          this.inwardLots = (lotsData.lots || []).map(l => this._normalizeLot(l));
+          this.issueTransactions = (issuesData.issues || []).map(i => this._normalizeIssue(i));
           this._rebuildSequenceCounters();
           this.persist();
           if (window.app) window.app.refreshAllViews();

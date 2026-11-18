@@ -84,15 +84,19 @@ class LedgerModule {
               ${pageBatches.length === 0 ? `
                 <tr><td colspan="12" class="text-center py-4 text-muted">No stock balance records found.</td></tr>
               ` : pageBatches.map(b => {
-      const stock = db.getBatchStock(b.batchNo);
-      const statusClass = stock.status === 'In Stock' ? 'status-ok' : stock.status === 'Low Stock' ? 'status-warn' : 'status-danger';
-      return `
+                const batchNo = b.batchNo || b.batch_no || '';
+                const inwardDate = b.inwardDate || b.inward_date || '-';
+                const supplier = b.supplier || '-';
+                const wireSize = b.wireSize || b.wire_size || '-';
+                const stock = db.getBatchStock(batchNo) || { inwardWeight: b.weight || 0, totalIssued: 0, totalReturned: 0, totalNetConsumed: 0, availableStock: b.weight || 0, status: 'In Stock', issueCount: 0 };
+                const statusClass = stock.status === 'In Stock' ? 'status-ok' : stock.status === 'Low Stock' ? 'status-warn' : 'status-danger';
+                return `
                   <tr>
-                    <td><strong class="font-mono text-gold">${b.batchNo}</strong></td>
-                    <td>${b.inwardDate}</td>
-                    <td>${b.supplier}</td>
+                    <td><strong class="font-mono text-gold">${batchNo}</strong></td>
+                    <td>${inwardDate}</td>
+                    <td>${supplier}</td>
                     <td><span class="badge badge-mat">${b.material}</span></td>
-                    <td>${b.grade} <code>${b.wireSize}</code></td>
+                    <td>${b.grade} <code>${wireSize}</code></td>
                     <td><strong>${stock.inwardWeight.toFixed(2)}</strong></td>
                     <td class="text-warning">${stock.totalIssued.toFixed(2)}</td>
                     <td class="text-info">${stock.totalReturned.toFixed(2)}</td>
@@ -100,13 +104,13 @@ class LedgerModule {
                     <td><strong class="${stock.availableStock <= 0 ? 'text-danger' : 'text-success'}">${stock.availableStock.toFixed(2)}</strong></td>
                     <td><span class="badge ${statusClass}">${stock.status}</span></td>
                     <td>
-                      <button class="btn btn-secondary btn-xs btn-view-trace" data-batch="${b.batchNo}">
+                      <button class="btn btn-secondary btn-xs btn-view-trace" data-batch="${batchNo}">
                         Trace (${stock.issueCount})
                       </button>
                     </td>
                   </tr>
                 `;
-    }).join('')}
+              }).join('')}
             </tbody>
           </table>
         </div>

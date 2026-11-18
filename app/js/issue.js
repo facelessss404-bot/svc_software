@@ -504,24 +504,39 @@ class IssueModule {
             <tbody>
               ${pageIssues.length === 0 ? `
                 <tr><td colspan="14" class="text-center py-4 text-muted">No RM issue transactions recorded yet.</td></tr>
-              ` : pageIssues.map(t => `
+              ` : pageIssues.map(t => {
+                const id = t.id || t.txId || t.tx_id || '-';
+                const issueDate = t.issueDate || t.issue_date || '-';
+                const machineNo = t.machineNo || t.machine_no || '-';
+                const customer = t.customer || t.customer_name || '-';
+                const partNumber = t.partNumber || t.part_number || '-';
+                const batchNo = t.batchNo || t.batch_no || '-';
+                const wireSpec = `${t.material || ''} ${t.grade || ''} ${t.wireSize || t.wire_size || ''}`.trim() || '-';
+                const issuedQty = Number(t.issuedQty != null ? t.issuedQty : t.issued_qty) || 0;
+                const returnQty = Number(t.returnQty != null ? t.returnQty : t.return_qty) || 0;
+                const scrapQty = Number(t.scrapQty != null ? t.scrapQty : t.scrap_qty) || 0;
+                const bitWireQty = Number(t.bitWireQty != null ? t.bitWireQty : t.bit_wire_qty) || 0;
+                const slugQty = Number(t.slugQty != null ? t.slugQty : t.slug_qty) || 0;
+                const netConsumed = Number(t.netConsumed != null ? t.netConsumed : t.net_consumed) || 0;
+                const dieNo = t.dieNo || t.die_no || '-';
+                return `
                 <tr>
-                  <td><code class="text-muted">${t.id}</code></td>
-                  <td>${t.issueDate}</td>
-                  <td><strong class="badge badge-mach">${t.machineNo}</strong></td>
-                  <td><strong>${t.customer}</strong></td>
-                  <td><code>${t.partNumber}</code></td>
-                  <td><strong class="font-mono text-gold">${t.batchNo}</strong></td>
-                  <td>${t.material} ${t.grade} ${t.wireSize}</td>
-                  <td><strong class="text-warning">${t.issuedQty.toFixed(2)}</strong></td>
-                  <td>${t.returnQty.toFixed(2)}</td>
-                  <td>${t.scrapQty.toFixed(2)}</td>
-                  <td>${t.bitWireQty.toFixed(2)}</td>
-                  <td>${t.slugQty.toFixed(2)}</td>
-                  <td><strong class="text-success">${t.netConsumed.toFixed(2)}</strong></td>
-                  <td>${t.dieNo || '-'}</td>
+                  <td><code class="text-muted">${id}</code></td>
+                  <td>${issueDate}</td>
+                  <td><strong class="badge badge-mach">${machineNo}</strong></td>
+                  <td><strong>${customer}</strong></td>
+                  <td><code>${partNumber}</code></td>
+                  <td><strong class="font-mono text-gold">${batchNo}</strong></td>
+                  <td>${wireSpec}</td>
+                  <td><strong class="text-warning">${issuedQty.toFixed(2)}</strong></td>
+                  <td>${returnQty.toFixed(2)}</td>
+                  <td>${scrapQty.toFixed(2)}</td>
+                  <td>${bitWireQty.toFixed(2)}</td>
+                  <td>${slugQty.toFixed(2)}</td>
+                  <td><strong>${netConsumed.toFixed(2)}</strong></td>
+                  <td>${dieNo}</td>
                 </tr>
-              `).join('')}
+              `;}).join('')}
             </tbody>
           </table>
         </div>

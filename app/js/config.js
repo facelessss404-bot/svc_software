@@ -2,8 +2,8 @@
 // Supports Localhost, Factory LAN, and Distributed Cloud (Netlify Frontend + Render Backend)
 
 window.SVC_CONFIG = {
-  // Set your default Render backend URL here if deploying Frontend on Netlify:
-  DEFAULT_RENDER_URL: '',
+  // Set your default Render backend URL here if deploying Frontend on Netlify or opening locally:
+  DEFAULT_RENDER_URL: 'https://svc-software.onrender.com',
 
   getBackendUrl() {
     // 1. Check user override in localStorage

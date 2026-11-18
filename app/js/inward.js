@@ -294,6 +294,7 @@ class InwardModule {
       // Refresh registers & dashboard
       this.renderRegister();
       this.app.refreshAllViews();
+      return savedLot;
 
     } catch (error) {
       this.app.showNotification(`ERROR: ${error.message}`, 'error', 7000);
@@ -381,21 +382,28 @@ class InwardModule {
               ${pageLots.length === 0 ? `
                 <tr><td colspan="12" class="text-center py-4 text-muted">No inward lot records found matching criteria.</td></tr>
               ` : pageLots.map(l => {
-                const stock = db.getBatchStock(l.batchNo);
+                const batchNo = l.batchNo || l.batch_no || '';
+                const inwardDate = l.inwardDate || l.inward_date || '-';
+                const invNo = l.invNo || l.inv_no || '-';
+                const wireSize = l.wireSize || l.wire_size || '-';
+                const heatNo = l.heatNo || l.heat_no || '-';
+                const weight = Number(l.weight) || 0;
+                const coils = Number(l.coils) || 0;
+                const stock = db.getBatchStock(batchNo) || { availableStock: weight, status: 'In Stock' };
                 const statusClass = stock.status === 'In Stock' ? 'status-ok' : stock.status === 'Low Stock' ? 'status-warn' : 'status-danger';
                 return `
-                  <tr data-batch="${l.batchNo}" class="clickable-row">
-                    <td><strong class="font-mono text-gold">${l.batchNo}</strong></td>
-                    <td>${l.inwardDate}</td>
-                    <td>${l.supplier}</td>
-                    <td>${l.invNo}</td>
+                  <tr data-batch="${batchNo}" class="clickable-row">
+                    <td><strong class="font-mono text-gold">${batchNo}</strong></td>
+                    <td>${inwardDate}</td>
+                    <td>${l.supplier || '-'}</td>
+                    <td>${invNo}</td>
                     <td><span class="badge badge-mat">${l.material}</span></td>
                     <td>${l.grade}</td>
-                    <td><code>${l.wireSize}</code></td>
-                    <td>${l.coils}</td>
-                    <td><strong>${l.weight.toFixed(2)}</strong></td>
+                    <td><code>${wireSize}</code></td>
+                    <td>${coils}</td>
+                    <td><strong>${weight.toFixed(2)}</strong></td>
                     <td class="text-success"><strong>${stock.availableStock.toFixed(2)}</strong></td>
-                    <td>${l.heatNo || '-'}</td>
+                    <td>${heatNo}</td>
                     <td><span class="badge ${statusClass}">${stock.status}</span></td>
                   </tr>
                 `;

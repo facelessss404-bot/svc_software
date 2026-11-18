@@ -98,6 +98,48 @@ The application uses a zero-dependency **Python 3 Standard Library SQLite Server
    - Usable Wire Remaining in Store
    - Lot Status (`In Stock`, `Low Stock`, `Exhausted`)
 4. Click **Trace** on any lot to drill down into every machine issue transaction recorded against that batch.
+
+---
+
+## 4. UI/UX Responsive Redesign & Viewport Verification (Version 1.1)
+
+### Responsive Architecture & Design Token System
+The user interface has been comprehensively redesigned with an industrial-grade dark theme tailored for rugged manufacturing environments, shop-floor touch tablets, and desktop workstations:
+- **Design Tokens:** Strict CSS custom properties for palette (`#080D1A` base, `#F59E0B` precision amber, `#3B82F6` operational blue, `#10B981` verified green), elevation shadows, fluid spacing, and tabular typography.
+- **Two-Tier Header Hierarchy:**
+  - *Desktop (>768px):* Single horizontal baseline with brand tag, phase badge, server connection status pill, user avatar, and logout.
+  - *Mobile (<=768px):* Primary row has touch-friendly hamburger button, brand lockup, user badge, and logout. Secondary dedicated row cleanly separates the Phase badge and Server status pill with zero text wrapping or overlap.
+- **Off-Canvas Mobile Drawer:** Smooth animated navigation drawer with backdrop dimming, one-tap backdrop dismiss, explicit close button, and Escape key listener.
+- **KPI Metrics Grid:** Fluid responsive grid (1 column on phones, 2 on tablets, 3 on desktops) with tabular numbers and proportional unit alignment.
+- **Quick Shop-Floor Operations:** Desktop flex banner automatically reflows on mobile into stacked cards with full-width, 48px touch-target buttons (`+ New RM Inward`, `+ New RM Issue`) that never wrap awkwardly.
+- **Responsive Form Grids & Tables:** 1/2/3 column responsive form reflow; horizontally contained table regions with scroll indicators and zero document-level horizontal page overflow.
+
+### Viewport Verification Matrix (Playwright Tested)
+| Viewport Profile | Resolution | Scroll Width | Inner Width | Horizontal Overflow | Result |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Small Phone** | 320 x 700 px | 305 px | 320 px | **No (0 px)** | **PASS** |
+| **Common Phone** | 360 x 800 px | 345 px | 360 px | **No (0 px)** | **PASS** |
+| **Standard Phone** | 390 x 844 px | 375 px | 390 px | **No (0 px)** | **PASS** |
+| **Large Phone** | 430 x 932 px | 415 px | 430 px | **No (0 px)** | **PASS** |
+| **Prompt Reference Width** | 605 x 800 px | 590 px | 605 px | **No (0 px)** | **PASS** |
+| **Tablet Portrait** | 768 x 1024 px | 753 px | 768 px | **No (0 px)** | **PASS** |
+| **Tablet Landscape** | 1024 x 768 px | 1009 px | 1024 px | **No (0 px)** | **PASS** |
+| **Laptop Standard** | 1280 x 800 px | 1265 px | 1280 px | **No (0 px)** | **PASS** |
+| **Desktop High-Res** | 1440 x 900 px | 1425 px | 1440 px | **No (0 px)** | **PASS** |
+| **Large Desktop / Monitor**| 1920 x 1080 px | 1905 px | 1920 px | **No (0 px)** | **PASS** |
+
+### Verified Test Evidence Screenshots
+- `screenshots/before_mobile_390.png` & `screenshots/before_mobile_390_full.png` (Baseline unrefined layout)
+- `screenshots/after_dashboard_phone_390.png` & `screenshots/after_dashboard_phone_390_full.png` (Mobile refined dashboard)
+- `screenshots/after_dashboard_ref_605.png` (Exact prompt reference width verified)
+- `screenshots/after_dashboard_tablet_768.png` (Tablet portrait 2-column KPI grid)
+- `screenshots/after_dashboard_laptop_1280.png` (Laptop 3-column layout with sidebar)
+- `screenshots/after_inward_phone_390_full.png` (Inward form & register with zero `undefined` values)
+- `screenshots/after_issue_phone_390_full.png` (Issue form, machine assignment & calculation cards)
+- `screenshots/after_ledger_phone_390_full.png` (Stock ledger reconciliation table)
+- `screenshots/after_sidebar_drawer_mobile.png` (Mobile navigation drawer with backdrop)
+- `screenshots/after_trace_modal_mobile.png` (Batch traceability dialog on mobile)
+- `screenshots/after_dashboard_laptop_1280_with_tx.png` (Live transaction verified in metrics & feed)
 5. Click **Export CSV** to download the complete stock reconciliation audit sheet.
 
 ---
